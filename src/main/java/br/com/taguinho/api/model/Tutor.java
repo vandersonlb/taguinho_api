@@ -50,6 +50,10 @@ public class Tutor {
 
   @Column
   @NotNull
+  private UserRole role;
+
+  @Column
+  @NotNull
   private Boolean active = true;
 
   @Column
