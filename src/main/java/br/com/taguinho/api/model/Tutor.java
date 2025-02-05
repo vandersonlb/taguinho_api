@@ -16,12 +16,12 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @ToString
+@Entity
 public class Tutor {
 
   @Id
@@ -40,8 +40,12 @@ public class Tutor {
   private String email;
 
   @Column
+  @Size(min = 9, max = 11)
+  private String phone;
+
+  @Column
   @NotNull
-  @Size(min = 8, max = 150)
+  @Size(min = 8, max = 100)
   private String password;
 
   @Column
