@@ -2,6 +2,7 @@ package br.com.taguinho.api.model;
 
 import java.time.LocalDateTime;
 
+import br.com.taguinho.api.enums.UserRole;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

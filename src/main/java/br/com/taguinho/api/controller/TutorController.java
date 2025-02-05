@@ -1,10 +1,10 @@
 package br.com.taguinho.api.controller;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,9 +25,10 @@ public class TutorController {
   private TutorService tutorService;
 
   @PostMapping
-  public ResponseEntity<Tutor> create(@RequestBody Tutor Tutor) {
-    Tutor createdTutor = tutorService.createTutor(Tutor);
-    return ResponseEntity.status(HttpStatus.CREATED).body(createdTutor);
+  public ResponseEntity<Tutor> create(@RequestBody Tutor tutor) {
+    Tutor createdTutor = tutorService.createTutor(tutor);
+    URI location = URI.create("/tutors/" + createdTutor.getId());
+    return ResponseEntity.created(location).build();
   }
 
   @GetMapping

@@ -40,9 +40,7 @@ public class TutorService {
     updates.forEach((key, value) -> {
       switch (key) {
         case "fullname" -> tutorToUpdate.setFullname((String) value);
-        case "email" -> tutorToUpdate.setEmail((String) value);
         case "phone" -> tutorToUpdate.setPhone((String) value);
-        case "active" -> tutorToUpdate.setActive((Boolean) value);
         default -> System.out.println("Invalid field: " + key);
       }
     });

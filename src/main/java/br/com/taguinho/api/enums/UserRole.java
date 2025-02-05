@@ -1,4 +1,4 @@
-package br.com.taguinho.api.model;
+package br.com.taguinho.api.enums;
 
 public enum UserRole {
 
