@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.taguinho.api.model.Tutor;
+import br.com.taguinho.api.model.TutorDTO;
 import br.com.taguinho.api.service.TutorService;
 
 @RestController
@@ -32,24 +33,20 @@ public class TutorController {
   }
 
   @GetMapping
-  public List<Tutor> getAll() {
-    return tutorService.getAllTutors();
+  public ResponseEntity<List<TutorDTO>> getAllActive() {
+    List<TutorDTO> tutorsActive = tutorService.getAllActiveTutors();
+    return tutorsActive.size() > 0 ? ResponseEntity.ok(tutorsActive) : ResponseEntity.noContent().build();
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity<Tutor> getOne(@PathVariable Long id) {
-    return tutorService.getTutorById(id)
-        .map(ResponseEntity::ok)
-        .orElse(ResponseEntity.notFound().build());
+  public ResponseEntity<TutorDTO> getOne(@PathVariable Long id) {
+    TutorDTO tutor = tutorService.getTutorById(id);
+    return ResponseEntity.ok(tutor);
   }
 
   @PutMapping("/{id}")
-  public ResponseEntity<Tutor> update(@PathVariable Long id, @RequestBody Map<String, Object> updates) {
-    return tutorService.getTutorById(id)
-        .map(tutorToUpdate -> {
-          Tutor tutorUpdated = tutorService.updateTutor(tutorToUpdate.getId(), updates);
-          return ResponseEntity.ok(tutorUpdated);
-        })
-        .orElse(ResponseEntity.notFound().build());
+  public ResponseEntity<Object> update(@PathVariable Long id, @RequestBody Map<String, Object> updates) {
+    tutorService.updateTutor(id, updates);
+    return ResponseEntity.noContent().build();
   }
 }
