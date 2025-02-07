@@ -7,9 +7,9 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,8 +26,8 @@ public class TutorController {
   private TutorService tutorService;
 
   @PostMapping
-  public ResponseEntity<Tutor> create(@RequestBody Tutor tutor) {
-    Tutor createdTutor = tutorService.createTutor(tutor);
+  public ResponseEntity<TutorDTO> create(@RequestBody Tutor tutor) {
+    TutorDTO createdTutor = tutorService.createTutor(tutor);
     URI location = URI.create("/tutors/" + createdTutor.getId());
     return ResponseEntity.created(location).build();
   }
@@ -35,7 +35,7 @@ public class TutorController {
   @GetMapping
   public ResponseEntity<List<TutorDTO>> getAllActive() {
     List<TutorDTO> tutorsActive = tutorService.getAllActiveTutors();
-    return tutorsActive.size() > 0 ? ResponseEntity.ok(tutorsActive) : ResponseEntity.noContent().build();
+    return ResponseEntity.ok(tutorsActive);
   }
 
   @GetMapping("/{id}")
@@ -44,7 +44,7 @@ public class TutorController {
     return ResponseEntity.ok(tutor);
   }
 
-  @PutMapping("/{id}")
+  @PatchMapping("/{id}")
   public ResponseEntity<Object> update(@PathVariable Long id, @RequestBody Map<String, Object> updates) {
     tutorService.updateTutor(id, updates);
     return ResponseEntity.noContent().build();

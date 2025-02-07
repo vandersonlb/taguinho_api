@@ -55,11 +55,11 @@ public class Tutor {
 
   @Column
   @NotNull
-  private Boolean active = true;
+  private Boolean active;
 
   @Column
   @NotNull
-  private LocalDateTime createdAt = LocalDateTime.now();
+  private LocalDateTime createdAt;
 
   @Column
   private LocalDateTime updatedAt;
