@@ -54,11 +54,9 @@ public class Tutor {
   private UserRole role;
 
   @Column
-  @NotNull
   private Boolean active;
 
   @Column
-  @NotNull
   private LocalDateTime createdAt;
 
   @Column

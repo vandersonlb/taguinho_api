@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.taguinho.api.model.Tutor;
 import br.com.taguinho.api.model.TutorDTO;
 import br.com.taguinho.api.service.TutorService;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/tutors")
@@ -26,7 +27,7 @@ public class TutorController {
   private TutorService tutorService;
 
   @PostMapping
-  public ResponseEntity<TutorDTO> create(@RequestBody Tutor tutor) {
+  public ResponseEntity<TutorDTO> create(@Valid @RequestBody Tutor tutor) {
     TutorDTO createdTutor = tutorService.createTutor(tutor);
     URI location = URI.create("/tutors/" + createdTutor.getId());
     return ResponseEntity.created(location).build();
