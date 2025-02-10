@@ -1,6 +1,12 @@
 package br.com.taguinho.api.model;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.List;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import br.com.taguinho.api.enums.UserRole;
 import jakarta.persistence.Column;
@@ -23,7 +29,7 @@ import lombok.ToString;
 @Setter
 @ToString
 @Entity
-public class Tutor {
+public class Tutor implements UserDetails {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -62,4 +68,17 @@ public class Tutor {
   @Column
   private LocalDateTime updatedAt;
 
+  @Override
+  public Collection<? extends GrantedAuthority> getAuthorities() {
+    return switch (this.role) {
+      case MASTER -> List.of(new SimpleGrantedAuthority("ROLE_MASTER"), new SimpleGrantedAuthority("ROLE_USER"));
+      case USER -> List.of(new SimpleGrantedAuthority("ROLE_USER"));
+      default -> throw new IllegalStateException();
+    };
+  }
+
+  @Override
+  public String getUsername() {
+    return this.email;
+  }
 }

@@ -3,6 +3,7 @@ package br.com.taguinho.api.repository;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Repository;
 
 import br.com.taguinho.api.model.Tutor;
@@ -11,5 +12,7 @@ import br.com.taguinho.api.model.Tutor;
 public interface TutorRepository extends JpaRepository<Tutor, Long> {
 
   public List<Tutor> findByActiveTrue();
+
+  public UserDetails findByEmail(String email);
 
 }

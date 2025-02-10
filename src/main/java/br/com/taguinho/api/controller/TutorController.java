@@ -1,6 +1,5 @@
 package br.com.taguinho.api.controller;
 
-import java.net.URI;
 import java.util.List;
 import java.util.Map;
 
@@ -9,15 +8,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.taguinho.api.model.Tutor;
 import br.com.taguinho.api.model.TutorDTO;
 import br.com.taguinho.api.service.TutorService;
-import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/tutors")
@@ -25,13 +21,6 @@ public class TutorController {
 
   @Autowired
   private TutorService tutorService;
-
-  @PostMapping
-  public ResponseEntity<TutorDTO> create(@Valid @RequestBody Tutor tutor) {
-    TutorDTO createdTutor = tutorService.createTutor(tutor);
-    URI location = URI.create("/tutors/" + createdTutor.getId());
-    return ResponseEntity.created(location).build();
-  }
 
   @GetMapping
   public ResponseEntity<List<TutorDTO>> getAllActive() {
