@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import br.com.taguinho.api.model.Tutor;
 import br.com.taguinho.api.model.TutorDTO;
+import br.com.taguinho.api.service.TokenService;
 import br.com.taguinho.api.service.TutorService;
 import jakarta.validation.Valid;
 
@@ -29,12 +30,17 @@ public class AuthController {
   @Autowired
   private PasswordEncoder passwordEncoder;
 
+  @Autowired
+  private TokenService tokenService;
+
   @PostMapping("/login")
   public ResponseEntity<Object> login(@RequestBody Tutor tutor) {
     var usernamePassword = new UsernamePasswordAuthenticationToken(tutor.getEmail(), tutor.getPassword());
     Authentication auth = authManager.authenticate(usernamePassword);
 
-    return ResponseEntity.ok(auth);
+    String token = tokenService.generateToken((Tutor) auth.getPrincipal());
+
+    return ResponseEntity.ok(token);
   }
 
   @PostMapping("/register")
