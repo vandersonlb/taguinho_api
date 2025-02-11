@@ -9,6 +9,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.auth0.jwt.exceptions.JWTVerificationException;
+
 import br.com.taguinho.api.repository.TutorRepository;
 import br.com.taguinho.api.service.TokenService;
 import jakarta.servlet.FilterChain;
@@ -26,18 +28,23 @@ public class TokenFilter extends OncePerRequestFilter {
   private TutorRepository tutorRepository;
 
   @Override
-  protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-      throws ServletException, IOException {
+  protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
     String token = request.getHeader("Authorization");
-
     if (token != null) {
-      token = token.replace("Bearer ", "");
-      String login = tokenService.validateToken(token);
-      UserDetails user = tutorRepository.findByEmail(login);
+      try {
+        token = token.replace("Bearer ", "");
+        String login = tokenService.validateToken(token);
 
-      UsernamePasswordAuthenticationToken usernamePassword = new UsernamePasswordAuthenticationToken(user, null,
-          user.getAuthorities());
-      SecurityContextHolder.getContext().setAuthentication(usernamePassword);
+        if (login.isEmpty()) throw new JWTVerificationException("Token inválido.");
+        UserDetails user = tutorRepository.findByEmail(login);
+        var usernamePassword = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(usernamePassword);
+
+      } catch (JWTVerificationException ex) {
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        response.setContentType("application/json");
+        response.getWriter().write("{\"error\": \"" + ex.getMessage() + "\"}");
+      }
     }
     filterChain.doFilter(request, response);
   }

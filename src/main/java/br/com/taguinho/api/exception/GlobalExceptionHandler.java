@@ -21,17 +21,17 @@ public class GlobalExceptionHandler {
   @ExceptionHandler(EntityNotFoundException.class)
   public ResponseEntity<String> handleNotFound(EntityNotFoundException ex) {
     return ResponseEntity.status(HttpStatus.NOT_FOUND)
-        .body("Recurso não encontrado: " + ex.getMessage());
+        .body("{\"error\": \"Recurso não encontrado.\"}");
   }
 
   @ExceptionHandler(DataIntegrityViolationException.class)
   public ResponseEntity<String> handleConstraintViolation(DataIntegrityViolationException ex) {
     if (ex.getMessage().contains("unique constraint")) {
       return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-          .body("Já existe um registro com esse valor.");
+          .body("{\"error\": \"Já existe um registro com esse valor.\"}");
     }
     return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-        .body("Erro de integridade no banco de dados.");
+        .body("{\"error\": \"Erro de integridade no banco de dados.\"}");
   }
 
   @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -51,18 +51,18 @@ public class GlobalExceptionHandler {
   @ExceptionHandler(BadCredentialsException.class)
   public ResponseEntity<String> handleBadCredentialsException(BadCredentialsException ex) {
     return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-        .body("Usuário ou senha inválidos.");
+        .body("{\"error\": \"Usuário ou senha inválidos.\"}");
   }
 
   @ExceptionHandler(InternalAuthenticationServiceException.class)
   public ResponseEntity<String> handleBadCredentialsException(InternalAuthenticationServiceException ex) {
     return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-        .body("Usuário ou senha inválidos.");
+        .body("{\"error\": \"Usuário ou senha inválidos.\"}");
   }
 
   @ExceptionHandler(Exception.class)
   public ResponseEntity<String> handleGenericException(Exception ex) {
     return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-        .body("Ocorreu um erro inesperado. Tente novamente mais tarde.");
+        .body("{\"error\": \"Ocorreu um erro inesperado. Tente novamente mais tarde.\"}");
   }
 }
