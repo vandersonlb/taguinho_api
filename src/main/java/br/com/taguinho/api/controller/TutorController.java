@@ -35,8 +35,20 @@ public class TutorController {
   }
 
   @PatchMapping("/{id}")
-  public ResponseEntity<Object> update(@PathVariable Long id, @RequestBody Map<String, Object> updates) {
+  public ResponseEntity<Void> update(@PathVariable Long id, @RequestBody Map<String, Object> updates) {
     tutorService.updateTutor(id, updates);
+    return ResponseEntity.noContent().build();
+  }
+  
+  @PatchMapping("/{id}/disable")
+  public ResponseEntity<Void> disable(@PathVariable Long id) {
+    tutorService.disableTutor(id);
+    return ResponseEntity.noContent().build();
+  }
+
+  @PatchMapping("/{id}/enable")
+  public ResponseEntity<Void> enable(@PathVariable Long id) {
+    tutorService.enableTutor(id);
     return ResponseEntity.noContent().build();
   }
 }

@@ -56,4 +56,16 @@ public class TutorService {
 
     tutor.setUpdatedAt(LocalDateTime.now());
   }
+
+  public void disableTutor(Long id) {
+    Tutor tutor = tutorRepository.findById(id)
+        .orElseThrow(() -> new EntityNotFoundException());
+    tutor.setActive(false);
+  }
+
+  public void enableTutor(Long id) {
+    Tutor tutor = tutorRepository.findById(id)
+        .orElseThrow(() -> new EntityNotFoundException());
+    tutor.setActive(true);
+  }
 }

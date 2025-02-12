@@ -29,8 +29,9 @@ public class SecurityConfigs {
         .authorizeHttpRequests(authorize -> authorize
             .requestMatchers(HttpMethod.POST, "/login").permitAll()
             .requestMatchers(HttpMethod.POST, "/register").hasRole("MASTER")
-            .requestMatchers(HttpMethod.GET, "/tutors").hasAnyRole("MASTER", "USER")
-            .requestMatchers(HttpMethod.PATCH, "/tutors").hasAnyRole("MASTER", "USER")
+            .requestMatchers("/tutors").hasAnyRole("MASTER", "USER")
+            .requestMatchers(HttpMethod.PATCH, "/tutors/{id}/disable").hasAnyRole("MASTER")
+            .requestMatchers(HttpMethod.PATCH, "/tutors/{id}/enable").hasAnyRole("MASTER")
             .anyRequest().authenticated())
         .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
         .build();

@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -55,9 +56,15 @@ public class GlobalExceptionHandler {
   }
 
   @ExceptionHandler(InternalAuthenticationServiceException.class)
-  public ResponseEntity<String> handleBadCredentialsException(InternalAuthenticationServiceException ex) {
+  public ResponseEntity<String> handleInternalAuthenticationServiceException(InternalAuthenticationServiceException ex) {
     return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
         .body("{\"error\": \"Usuário ou senha inválidos.\"}");
+  }
+
+  @ExceptionHandler(UsernameNotFoundException.class)
+  public ResponseEntity<String> handleUsernameNotFoundException(UsernameNotFoundException ex) {
+    return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+        .body("{\"error\": \"Usuário não encontrado ou inativo.\"}");
   }
 
   @ExceptionHandler(Exception.class)
