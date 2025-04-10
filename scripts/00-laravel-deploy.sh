@@ -9,4 +9,8 @@ echo "Caching routes..."
 php artisan route:cache
 
 echo "Running migrations..."
-php artisan migrate --force --seed
+php artisan migrate --force
+
+echo "Running seeders..."
+php artisan db:seed --class=AdminUserSeeder
+php artisan db:seed --class=RolesAndPermsSeeder

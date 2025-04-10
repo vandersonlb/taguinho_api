@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Enums\RolesEnum;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
@@ -25,11 +26,10 @@ class AdminUserSeeder extends Seeder
             ]
         );
 
-        $adminRole = Role::firstOrCreate(['name' => 'admin']);
+        $adminRole = Role::firstOrCreate(['name' => RolesEnum::ADMIN]);
 
-        if (!$admin->hasRole('admin')) {
+        if (!$admin->hasRole(RolesEnum::ADMIN)) {
             $admin->assignRole($adminRole);
-            $admin->syncPermissions(Role::findByName('admin')->permissions);
         }
     }
 }
