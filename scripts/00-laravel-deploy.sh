@@ -12,5 +12,5 @@ echo "Running migrations..."
 php artisan migrate --force
 
 echo "Running seeders..."
-php artisan db:seed --class=AdminUserSeeder
-php artisan db:seed --class=RolesAndPermsSeeder
+php artisan db:seed --class=AdminUserSeeder --force
+php artisan db:seed --class=RolesAndPermsSeeder --force
