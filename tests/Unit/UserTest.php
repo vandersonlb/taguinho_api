@@ -64,7 +64,7 @@ class UserTest extends TestCase
     }
 
     # php artisan test --filter=UserTest::test_user_can_have_permissions
-    public function test_user_can_have_permissions()
+    public function test_user_can_have_permissions(): void
     {
         $perm_1 = Permission::create(['name' => 'view own profile']);
         $perm_2 = Permission::create(['name' => 'update own profile']);
@@ -75,7 +75,6 @@ class UserTest extends TestCase
 
         $user = User::factory()->create();
         $user->assignRole('admin');
-
 
         $this->assertTrue($user->hasPermissionTo('view own profile'));
         $this->assertTrue($user->hasPermissionTo('update own profile'));
