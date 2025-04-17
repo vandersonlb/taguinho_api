@@ -79,6 +79,5 @@ class UserTest extends TestCase
         $this->assertTrue($user->hasPermissionTo('view own profile'));
         $this->assertTrue($user->hasPermissionTo('update own profile'));
         $this->assertTrue($user->hasPermissionTo('delete own profile'));
-
     }
 }
